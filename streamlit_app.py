@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='GDP dashboard',
+    page_title='지역별 발전량',
     page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
 )
 
@@ -64,11 +64,10 @@ gdp_df = get_gdp_data()
 
 # Set the title that appears at the top of the page.
 '''
-# :earth_americas: GDP dashboard
+# :earth_americas: 지역별 발전량
 
-Browse GDP data from the [World Bank Open Data](https://data.worldbank.org/) website. As you'll
-notice, the data only goes to 2022 right now, and datapoints for certain years are often missing.
-But it's otherwise a great (and did I mention _free_?) source of data.
+2017년 1월 1일 ~ 2023년 3월 1일까지의 지역별 시간별 태양광 발전량 데이터를 한눈에 볼 수
+있어요!
 '''
 
 # Add some spacing
@@ -79,7 +78,7 @@ min_value = gdp_df['Year'].min()
 max_value = gdp_df['Year'].max()
 
 from_year, to_year = st.slider(
-    'Which years are you interested in?',
+    '몇년도를 보고싶으세요?',
     min_value=min_value,
     max_value=max_value,
     value=[min_value, max_value])
@@ -87,10 +86,10 @@ from_year, to_year = st.slider(
 countries = gdp_df['Country Code'].unique()
 
 if not len(countries):
-    st.warning("Select at least one country")
+    st.warning("보고싶은 지역들을 선택하세요!")
 
 selected_countries = st.multiselect(
-    'Which countries would you like to view?',
+    '보고싶은 지역들을 선택하세요!',
     countries,
     ['DEU', 'FRA', 'GBR', 'BRA', 'MEX', 'JPN'])
 
@@ -105,7 +104,7 @@ filtered_gdp_df = gdp_df[
     & (from_year <= gdp_df['Year'])
 ]
 
-st.header('GDP over time', divider='gray')
+st.header('지역별 발전량', divider='gray')
 
 ''
 
